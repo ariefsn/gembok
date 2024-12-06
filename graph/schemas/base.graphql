@@ -1,0 +1,19 @@
+scalar Time
+scalar Map
+scalar Upload
+
+type Query
+
+type Mutation
+
+# Uncomment if needed
+# type Subscription
+
+type Audit {
+	createdAt: Time!
+  createdBy: String
+	updatedAt: Time
+  updatedBy: String
+  publishedAt: Time
+  publishedBy: String
+}

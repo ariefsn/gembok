@@ -1,0 +1,446 @@
+basePath: /
+definitions:
+  constant.AuthProvider:
+    enum:
+    - credentials
+    - github
+    type: string
+    x-enum-varnames:
+    - AuthProviderCredentials
+    - AuthProviderGithub
+  constant.VerificationType:
+    enum:
+    - email
+    - phone
+    type: string
+    x-enum-varnames:
+    - VerificationTypeEmail
+    - VerificationTypePhone
+  models.AuthChangePasswordPayload:
+    properties:
+      newPassword:
+        type: string
+      oldPassword:
+        type: string
+    required:
+    - newPassword
+    type: object
+  models.AuthDeletePayload:
+    properties:
+      password:
+        type: string
+    required:
+    - password
+    type: object
+  models.AuthForgotPasswordPayload:
+    properties:
+      email:
+        type: string
+    required:
+    - email
+    type: object
+  models.AuthResetPasswordPayload:
+    properties:
+      newPassword:
+        type: string
+      token:
+        type: string
+    required:
+    - newPassword
+    - token
+    type: object
+  models.AuthSignInPayload:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+      provider:
+        $ref: '#/definitions/constant.AuthProvider'
+    type: object
+  models.AuthSignInResponse:
+    properties:
+      accessToken:
+        type: string
+      authUrl:
+        type: string
+      provider:
+        type: string
+      refreshToken:
+        type: string
+    type: object
+  models.AuthSignUpPayload:
+    properties:
+      email:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      password:
+        minLength: 8
+        type: string
+    required:
+    - email
+    - firstName
+    - lastName
+    type: object
+  models.AuthVerificationPayload:
+    properties:
+      code:
+        type: string
+      id:
+        type: string
+      type:
+        allOf:
+        - $ref: '#/definitions/constant.VerificationType'
+        enum:
+        - email
+        - phone
+    required:
+    - code
+    - id
+    - type
+    type: object
+  models.UserDataView:
+    properties:
+      banExpiredAt:
+        type: string
+      banReason:
+        type: string
+      createdAt:
+        type: string
+      createdBy:
+        type: string
+      email:
+        type: string
+      firstName:
+        type: string
+      id:
+        type: string
+      image:
+        type: string
+      isBanned:
+        type: boolean
+      isEmailVerified:
+        type: boolean
+      isPhoneVerified:
+        type: boolean
+      lastName:
+        type: string
+      phone:
+        type: string
+      updatedAt:
+        type: string
+      updatedBy:
+        type: string
+      username:
+        type: string
+    type: object
+  swagger.AuthChangePasswordResponse:
+    properties:
+      code:
+        type: string
+      data:
+        type: string
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  swagger.AuthDeleteResponse:
+    properties:
+      code:
+        type: string
+      data:
+        type: string
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  swagger.AuthForgotPasswordResponse:
+    properties:
+      code:
+        type: string
+      data:
+        type: string
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  swagger.AuthProfileResponse:
+    properties:
+      code:
+        type: string
+      data:
+        $ref: '#/definitions/models.UserDataView'
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  swagger.AuthResetPasswordResponse:
+    properties:
+      code:
+        type: string
+      data:
+        type: string
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  swagger.AuthSignInResponse:
+    properties:
+      code:
+        type: string
+      data:
+        $ref: '#/definitions/models.AuthSignInResponse'
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  swagger.AuthSignOutResponse:
+    properties:
+      code:
+        type: string
+      data:
+        type: string
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  swagger.AuthSignUpResponse:
+    properties:
+      code:
+        type: string
+      data:
+        type: string
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  swagger.AuthVerificationResponse:
+    properties:
+      code:
+        type: string
+      data:
+        type: string
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+info:
+  contact:
+    email: hello@ariefsn.dev
+    name: API Support
+    url: https://ariefsn.dev
+  description: API Auth Service.
+  title: Auth Service
+  version: "3.0"
+paths:
+  /auth/change-password:
+    patch:
+      consumes:
+      - application/json
+      description: Change password for authenticated user
+      parameters:
+      - description: Payload
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.AuthChangePasswordPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/swagger.AuthChangePasswordResponse'
+      security:
+      - Bearer: []
+      summary: Change password for authenticated user
+      tags:
+      - Auth
+  /auth/forgot-password:
+    post:
+      consumes:
+      - application/json
+      description: Forgot password, will send the link via an email
+      parameters:
+      - description: Payload
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.AuthForgotPasswordPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/swagger.AuthForgotPasswordResponse'
+      summary: Forgot Password
+      tags:
+      - Auth
+  /auth/profile:
+    delete:
+      consumes:
+      - application/json
+      description: Delete own account and blacklist the access token
+      parameters:
+      - description: Payload
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.AuthDeletePayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/swagger.AuthDeleteResponse'
+      security:
+      - Bearer: []
+      summary: Delete own account
+      tags:
+      - Auth
+    get:
+      consumes:
+      - application/json
+      description: Get profile for authenticated user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/swagger.AuthProfileResponse'
+      security:
+      - Bearer: []
+      summary: Get profile for authenticated user
+      tags:
+      - Auth
+  /auth/reset-password:
+    patch:
+      consumes:
+      - application/json
+      description: Reset the password, needs the reset token
+      parameters:
+      - description: Payload
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.AuthResetPasswordPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/swagger.AuthResetPasswordResponse'
+      summary: Reset Password
+      tags:
+      - Auth
+  /auth/signin:
+    post:
+      consumes:
+      - application/json
+      description: Provider can be one of credentials, github. The email/username
+        and password field are required if the provider is credentials.
+      parameters:
+      - description: Payload
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.AuthSignInPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/swagger.AuthSignInResponse'
+      summary: Sign in with credentials or oauth
+      tags:
+      - Auth
+  /auth/signout:
+    get:
+      consumes:
+      - application/json
+      description: Logout for authenticated user, and blacklist the token
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/swagger.AuthSignOutResponse'
+      security:
+      - Bearer: []
+      summary: Logout for authenticated user, and blacklist the token
+      tags:
+      - Auth
+  /auth/signup:
+    post:
+      consumes:
+      - application/json
+      description: Sign up with credentials, email and password
+      parameters:
+      - description: Payload
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.AuthSignUpPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/swagger.AuthSignUpResponse'
+      summary: Sign up with credentials
+      tags:
+      - Auth
+  /auth/verify:
+    patch:
+      consumes:
+      - application/json
+      description: Verify email or phone
+      parameters:
+      - description: Payload
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.AuthVerificationPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/swagger.AuthVerificationResponse'
+      summary: Verify
+      tags:
+      - Auth
+securityDefinitions:
+  Bearer:
+    description: Description for what is this security definition being used
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

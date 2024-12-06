@@ -1,0 +1,14 @@
+{
+  "signUpVerification": {
+    "subject": "Gembok - Welcome Aboard",
+    "template": "signup-verification.mjml"
+  },
+  "forgotPassword": {
+    "subject": "Gembok - Forgot Password",
+    "template": "forgot-password.mjml"
+  },
+  "resetPassword": {
+    "subject": "Gembok - Reset Password",
+    "template": "reset-password.mjml"
+  }
+}

@@ -1,0 +1,37 @@
+<mjml>
+  <mj-body>
+    <mj-section>
+      <mj-column>
+
+        <mj-divider border-color="#000000"></mj-divider>
+
+        <mj-text font-size="16px" color="#000000" font-family="helvetica">
+        	Hello ✋🏻 {{ fullName }} ({{ email }}),
+        </mj-text>
+
+        <mj-text font-size="16px" color="#000000" font-family="helvetica" line-height="1.5">
+        	Welcome to Auth Service, here is your code activation. This code only available for {{ expiredAt }} minutes.
+        </mj-text>
+
+        <mj-text font-size="28px" font-weight="bold" color="black" font-family="helvetica" align="center" letter-spacing="4px">
+        	{{ code }}
+        </mj-text>
+        
+        <mj-text font-size="16px" color="black" font-family="helvetica">Or you can click button below:</mj-text>
+        
+        <mj-button color="white" background-color="black" href="{{ url }}">
+        	Activate
+        </mj-button>
+        
+        <mj-text font-size="16px" color="black" font-family="helvetica">
+        	Thanks,
+          <br />
+          Auth Service
+        </mj-text>
+
+        <mj-divider border-color="#000000"></mj-divider>
+
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

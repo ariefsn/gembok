@@ -1,0 +1,21 @@
+# GraphQL schema example
+#
+# https://gqlgen.com/getting-started/
+
+input AuthSignInPayload {
+  email: String!
+  password: String!
+}
+
+type AuthSignInResponse {
+	accessToken: String!
+	refreshToken: String!
+}
+
+extend type Query {
+  authProfile: String!
+}
+
+extend type Mutation {
+  authCredentialsSignIn(input: AuthSignInPayload!): AuthSignInResponse!
+}
